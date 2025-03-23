@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #ff6600;
+            color: white;
+        }
+        .download-btn {
+            text-decoration: none;
+            color: white;
+            background-color: #ff6600;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+        .download-btn:hover {
+            background-color: #ff4500;
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'navbar.html' %}
+
+    <div class="container">
+        <h2>Your Generated Data History</h2>
+        {% if history %}
+            <table>
+                <tr>
+                    <th>Dataset Name</th>
+                    <th>Generated On</th>
+                    <th>Download</th>
+                </tr>
+                {% for entry in history %}
+                    <tr>
+                        <td>{{ entry.dataset_name }}</td>
+                        <td>{{ entry.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                        <td><a href="{{ url_for('download', filename=entry.file_path.split('/')[-1]) }}" class="download-btn">Download</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No history found. Generate some datasets first!</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>
